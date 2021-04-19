@@ -1,0 +1,15 @@
+{
+  "name": "api_app_example",
+  "version": "1.0.0",
+  "description": "REST API Application example ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pavel Halama",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "form-data": "^4.0.0"
+  }
+}
