@@ -110,22 +110,22 @@ const onboardEdgeDevice = async () => {
                 "onboarding": {
                   "localUserName": "pavel.halama@siemens.com",
                   "localPassword": "Edge4SUP!",
-                  "deviceName": "mydevice"
+                  "deviceName": "staticdev"
                 },
                 "Device": {
                   "Network": {
                     "Interfaces": [
                       {
-                        "MacAddress": "00:0C:29:FC:EA:3E",
+                        "MacAddress": "00:0C:29:EA:B9:21",
                         "GatewayInterface": true,
-                        "DHCP": "enabled",
+                        "DHCP": "disabled",
                         "Static": {
-                            "IPv4": "",
-                            "NetMask": "",
-                            "Gateway": ""
+                            "IPv4": "192.168.1.104",
+                            "NetMask": "255.255.255.0",
+                            "Gateway": "192.168.1.1"
                         },
                         "DNSConfig": {
-                          "PrimaryDNS": "",
+                          "PrimaryDNS": "192.168.1.1",
                           "SecondaryDNS": ""
                         }
                       }
@@ -158,7 +158,7 @@ const onboardEdgeDevice = async () => {
   const form = new FormData();
   form.append( 'files', fs.createReadStream('./config_file/device-config.txt'), 'device-config.txt' );
 
-  const resp_onboard = await axios.post('https://192.168.1.108/device/edge/b.service/api/v1/activate', form, {
+  const resp_onboard = await axios.post('https://192.168.1.104/device/edge/api/v1/activate', form, {
     headers: form.getHeaders(),
   });
 
