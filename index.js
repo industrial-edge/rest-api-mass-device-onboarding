@@ -1,92 +1,32 @@
+// bringing node packages 
 const axios = require("axios").default;
 const fs = require('fs');
 const FormData = require('form-data');
+const xlsx = require('xlsx');
+
+// Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const IEM_URL = 'https://192.168.1.107:9443';
 
+// Reading excel list as .xlsx file 
+const file = xlsx.readFile('./devices/edge_devices_v0.0.1.xlsx');
+console.log('File succesfully read...');
+
+const sheets = file.SheetNames;
+console.log(sheets);
+let data = [];
+for(let i = 0; i < sheets.length; i++){
+   const temp = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[i]]);
+   temp.forEach((res) => {
+      data.push(res)
+   })
+}
+  
+// Printing data
+console.log(data)
+
+// Async/Await solution
 /*
-axios.post(IEM_URL+'/portal/api/v1/login/direct', {
-    "username": "pavel.halama@siemens.com",
-    "password": "Edge4SUP!"
-  })
-  .then((response) => {
-    TOKEN = response.data.data.access_token;
-    console.log(typeof response.data.data);
-    return TOKEN
-    //console.log(TOKEN);
-  })
-  .then( token => {
-      TOKEN = token;
-    axios({
-        method: 'post', //you can set what request you want to be
-        url: IEM_URL+'/portal/api/v1/devices',
-        data: {
-                "device": {
-                  "onboarding": {
-                    "localUserName": "pavel.halama@siemens.com",
-                    "localPassword": "Edge4SUP!",
-                    "deviceName": "mydevice"
-                  },
-                  "Device": {
-                    "Network": {
-                      "Interfaces": [
-                        {
-                          "MacAddress": "00:0C:29:EA:B9:30",
-                          "GatewayInterface": true,
-                          "DHCP": "disabled",
-                          "Static": {
-                              "IPv4": "192.168.1.96",
-                              "NetMask": "255.255.255.0",
-                              "Gateway": "192.168.1.1"
-                          },
-                          "DNSConfig": {
-                            "PrimaryDNS": "192.168.1.1",
-                            "SecondaryDNS": "8.8.8.8"
-                          }
-                        },
-                        {
-                          "MacAddress": "00:0C:29:EA:B9:31",
-                          "GatewayInterface": false,
-                          "DHCP": "enabled",
-                          "Static": {
-                              "IPv4": "",
-                              "NetMask": "",
-                              "Gateway": ""
-                          },
-                          "DNSConfig": {
-                            "PrimaryDNS": "",
-                            "SecondaryDNS": ""
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "ntpServer": [
-                    {
-                      "ntpServer": "0.pool.ntp.org"
-                    }
-                  ]
-                }
-        },
-        headers: {
-          Authorization: 'BEARER ' + token,
-          'Content-Type': 'application/json'
-        }
-    })
-    .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-});
-
-*/
-
-// Async/Await solution 
 let token; 
 const onboardEdgeDevice = async () => {
 //------------------------------------- LOGGING TO IEM ---------------------------------------------------------------
@@ -172,3 +112,5 @@ const onboardEdgeDevice = async () => {
 };
 
 onboardEdgeDevice();
+
+*/
