@@ -11,19 +11,24 @@ const IEM_URL = 'https://192.168.1.107:9443';
 // Reading excel list as .xlsx file 
 const file = xlsx.readFile('./devices/edge_devices_v0.0.1.xlsx');
 console.log('File succesfully read...');
-
 const sheets = file.SheetNames;
-console.log(sheets);
-let data = [];
-for(let i = 0; i < sheets.length; i++){
-   const temp = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[i]]);
-   temp.forEach((res) => {
-      data.push(res)
-   })
-}
+
+// Device Config
+const device_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[0]]);
+// Network config
+const network_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[1]]);
+// Layer 2 Config
+const layer2_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[2]]);
+// Docker IP Config
+const dockerIP_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[3]]);
+// NTP Config
+const ntp_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[4]]);
+// PROXY Config
+const proxy_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[5]]);
   
 // Printing data
-console.log(data)
+console.log(device_config)
+console.log(network_config[0]["DEVICE ID*"])
 
 // Async/Await solution
 /*
