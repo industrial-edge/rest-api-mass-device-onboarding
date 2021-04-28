@@ -27,10 +27,13 @@ const ntp_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[4]]);
 const proxy_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[5]]);
   
 // Printing data
-console.log(device_config)
-console.log(network_config[0]["DEVICE ID*"])
+console.log(network_config);
+console.log(typeof network_config[0]["MAC ADRESS*"]);
 
-// Async/Await solution
+var adresses = network_config[0]["MAC ADRESS*"].split(',');
+console.log(adresses);
+
+// Async/Awit solution
 /*
 let token; 
 const onboardEdgeDevice = async () => {
