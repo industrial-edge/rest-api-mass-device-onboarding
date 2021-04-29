@@ -3,6 +3,7 @@ const axios = require("axios").default;
 const fs = require('fs');
 const FormData = require('form-data');
 const xlsx = require('xlsx');
+const { isObject } = require("util");
 
 // Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -27,13 +28,50 @@ const ntp_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[4]]);
 const proxy_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[5]]);
   
 // Printing data
-console.log(network_config);
-console.log(typeof network_config[0]["MAC ADRESS*"]);
+//console.log(device_config[0]);
+//console.log(typeof network_config[0]["MAC ADRESS*"]);
 
 var adresses = network_config[0]["MAC ADRESS*"].split(',');
-console.log(adresses);
+//console.log(adresses);
 
-// Async/Awit solution
+// creating config files 
+
+
+var obj = { 
+  "localUserName": "", 
+  "localPassword": "", 
+  "deviceName": "", 
+  "deviceTypeId": ""
+};
+
+var entries = Object.entries(obj);
+
+//console.log(entries);
+
+const newobj = Object.fromEntries(entries);
+
+//console.log(newobj);
+
+
+const createOnboardingConfig = (deviceConfigObj) => {
+  
+  var obj = { 
+    "localUserName": "", 
+    "localPassword": "", 
+    "deviceName": "", 
+    "deviceTypeId": ""
+  };
+  const map = new Map();
+  let keys = Object.keys(obj)
+  Object.values(deviceConfigObj)
+  for (let index = 1; index < Object.values(deviceConfigObj).length; index++) {
+    map.set(keys[index-1], Object.values(deviceConfigObj)[index]);
+  }
+  return Object.fromEntries(map);
+};
+
+console.log(createOnboardingConfig(device_config[0]))
+// Async/Await solution
 /*
 let token; 
 const onboardEdgeDevice = async () => {
