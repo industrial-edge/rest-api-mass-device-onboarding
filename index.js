@@ -4,6 +4,7 @@ const fs = require('fs');
 const FormData = require('form-data');
 const xlsx = require('xlsx');
 const { isObject } = require("util");
+const { join } = require("path");
 
 // Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -36,23 +37,7 @@ var adresses = network_config[0]["MAC ADRESS*"].split(',');
 
 // creating config files 
 
-
-var obj = { 
-  "localUserName": "", 
-  "localPassword": "", 
-  "deviceName": "", 
-  "deviceTypeId": ""
-};
-
-var entries = Object.entries(obj);
-
-//console.log(entries);
-
-const newobj = Object.fromEntries(entries);
-
-//console.log(newobj);
-
-
+// device config sheet
 const createOnboardingConfig = (deviceConfigObj) => {
   
   var obj = { 
@@ -63,14 +48,65 @@ const createOnboardingConfig = (deviceConfigObj) => {
   };
   const map = new Map();
   let keys = Object.keys(obj)
-  Object.values(deviceConfigObj)
   for (let index = 1; index < Object.values(deviceConfigObj).length; index++) {
     map.set(keys[index-1], Object.values(deviceConfigObj)[index]);
   }
+
   return Object.fromEntries(map);
 };
 
-console.log(createOnboardingConfig(device_config[0]))
+//console.log(createOnboardingConfig(device_config[0]))
+
+// network config sheet
+
+console.log(network_config[0]);
+
+var object = {
+  "MacAddress": "00:0C:29:FC:EA:3E",
+  "GatewayInterface": true,
+  "DHCP": "disabled",
+  "Static": {
+      "IPv4": "192.168.1.108",
+      "NetMask": "255.255.255.0",
+      "Gateway": "192.168.1.1"
+  },
+  "DNSConfig": {
+    "PrimaryDNS": "192.168.1.1",
+    "SecondaryDNS": "8.8.8.8"
+  },
+  "L2Conf": {
+    "StartingAddressIPv4": "192.168.1.8",
+    "NetMask": "255.255.255.0",
+    "Range": "2"
+  }
+};
+
+const createNetworkConfig = (networkConfigObj) => {
+  //console.log(networkConfigObj["NUMBER OF INTERFACES*"]);
+  let interfaces = []; 
+  var basicNetwork = { 
+    "MacAddress": "",
+    "GatewayInterface": true,
+    "DHCP": "",
+  };
+
+  for (let j = 0; j < networkConfigObj["NUMBER OF INTERFACES*"]; j++) {
+    const map = new Map();
+    let keys = Object.keys(basicNetwork)
+    for (let i = 3; i <= 5; i++) {
+      map.set(keys[i-3], Object.values(networkConfigObj)[i].toString().split(',')[j]);
+    }
+    interfaces.push(Object.fromEntries(map))
+  }
+  return interfaces;
+
+};
+
+
+console.log(createNetworkConfig(network_config[0]));
+
+
+
 // Async/Await solution
 /*
 let token; 
