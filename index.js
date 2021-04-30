@@ -84,6 +84,7 @@ var object = {
 const createNetworkConfig = (networkConfigObj) => {
   //console.log(networkConfigObj["NUMBER OF INTERFACES*"]);
   let interfaces = []; 
+  // basic network configuration 
   var basicNetwork = { 
     "MacAddress": "",
     "GatewayInterface": true,
@@ -98,8 +99,28 @@ const createNetworkConfig = (networkConfigObj) => {
     }
     interfaces.push(Object.fromEntries(map))
   }
-  return interfaces;
+  // DHCP configuration 
+  var static = {
+    "IPv4": "",
+    "NetMask": "",
+    "Gateway": ""
+  }
 
+  let dhcp = networkConfigObj["DHCP*"].toString().split(',');
+
+  for (let j = 0; j < dhcp.length; j++) {
+    if (dhcp[j]== "disabled") {
+      const map = new Map();
+      let keys = Object.keys(static)
+      for (let i = 6; i <= 8; i++) {
+        map.set(keys[i-6], Object.values(networkConfigObj)[i].toString().split(',')[j]);
+      }
+      Object.assign(interfaces[j],{"Static" : Object.fromEntries(map)})
+    } else {
+      Object.assign(interfaces[j],{"Static": static});
+    };
+  };
+  return interfaces
 };
 
 
