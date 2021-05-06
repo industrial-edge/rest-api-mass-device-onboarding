@@ -3,9 +3,7 @@ const axios = require("axios").default;
 const fs = require('fs');
 const FormData = require('form-data');
 const xlsx = require('xlsx');
-const { isObject } = require("util");
-const { join } = require("path");
-const { clear } = require("console");
+
 
 // Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -128,15 +126,6 @@ const createNetworkConfig = (networkConfigObj) => {
 
   let primary_ind = [];
   let primary_true_count = 0; 
-
-  for (let i = 0; i < primary_dns.length; i++) {
-    if (primary_dns[i].toString().trim() == "true") {
-      primary_ind.push(i);
-      primary_true_count++; 
-    }
-  };
-
-
   let secondary_ind = [];
   let secondary_true_count = 0; 
 
@@ -151,21 +140,22 @@ const createNetworkConfig = (networkConfigObj) => {
       secondary_ind.push(i);
       secondary_true_count++; 
     }
+    if (primary_dns[i].toString().trim() == "true") {
+      primary_ind.push(i);
+      primary_true_count++; 
+    }
     
   };
     
 
-  console.log(primary_ind, primary_true_count);
   let primary_dns_ip = networkConfigObj["PRIMARY DNS IP*"].toString().split(',');
   let secondary_dns_ip = networkConfigObj["SECONDARY DNS IP*"].toString().split(',');
-  console.log(primary_dns_ip);
+
 
   for (let j = 0 ; j < primary_true_count; j++) {
-    console.log(interfaces[primary_ind[j]]);
     interfaces[primary_ind[j]]["DNSConfig"]["PrimaryDNS"] = primary_dns_ip[j].toString();
   };
   for (let j = 0 ; j < secondary_true_count; j++) {
-    console.log(interfaces[secondary_ind[j]]);
     interfaces[secondary_ind[j]]["DNSConfig"]["SecondaryDNS"] = secondary_dns_ip[j].toString();
   };
   return interfaces;
