@@ -74,7 +74,7 @@ const onboardEdgeDevice = async () => {
   });
 
 //------------------------------------- ONBOARDING EDGE DEVICE ---------------------------------------------------------------
-  /*
+  
 // create form data 
   const form = new FormData();
   form.append( 'files', fs.createReadStream('./config_file/device-config.txt'), 'device-config.txt' );
@@ -84,7 +84,7 @@ const onboardEdgeDevice = async () => {
   });
 
   console.log(resp_onboard);
-*/
+
   } catch (error) {
     console.log(error);
   }
