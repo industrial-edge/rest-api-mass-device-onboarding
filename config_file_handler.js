@@ -11,14 +11,14 @@ const createOnboardingConfig = (deviceConfigObj) => {
     const map = new Map();
     let keys = Object.keys(obj)
     for (let index = 1; index < Object.values(deviceConfigObj).length; index++) {
-      map.set(keys[index-1], Object.values(deviceConfigObj)[index]);
+      map.set(keys[index-1], Object.values(deviceConfigObj)[index].toString().trim());
     }
   
     return Object.fromEntries(map);
   };
 
   
-  const createNetworkConfig = (networkConfigObj) => {
+const createNetworkConfig = (networkConfigObj) => {
     //console.log(networkConfigObj["NUMBER OF INTERFACES*"]);
     let interfaces = []; 
     // basic network configuration 
@@ -32,7 +32,7 @@ const createOnboardingConfig = (deviceConfigObj) => {
       const map = new Map();
       let keys = Object.keys(basicNetwork)
       for (let i = 3; i <= 5; i++) {
-        map.set(keys[i-3], Object.values(networkConfigObj)[i].toString().split(',')[j]);
+        map.set(keys[i-3], Object.values(networkConfigObj)[i].toString().split(',')[j].trim());
       }
       interfaces.push(Object.fromEntries(map))
     }
@@ -96,9 +96,43 @@ const createOnboardingConfig = (deviceConfigObj) => {
     for (let j = 0 ; j < secondary_true_count; j++) {
       interfaces[secondary_ind[j]]["DNSConfig"]["SecondaryDNS"] = secondary_dns_ip[j].toString();
     };
-    return interfaces;
-  };
+  return interfaces; 
+};
   
+const createConfig = (deviceConfigObj,networkConfigObj) => {
+  return {
+    "device": {
+        "onboarding": createOnboardingConfig(deviceConfigObj),
+        "Device": {
+            "Network": {
+                "Interfaces": createNetworkConfig(networkConfigObj)
+            },
+            "dockerIP": "172.16.0.0/16"
+        },
+        "ntpServers": [
+            {
+                "ntpServer": "time.google.com"
+            },
+            {
+                "ntpServer": "0.pool.ntp.org"
+            }
+        ],
+        "proxies": [
+            {
+                "host": "192.168.80.144:3128",
+                "protocol": "http",
+                "noProxy": "192.168.1.107",
+                "customPorts": [
+                    1234,
+                    5478
+                ]
+            }
+        ]
+    }
+  }
+};
 
-  exports.createOnboardingConfig = createOnboardingConfig; 
-  exports.createNetworkConfig = createNetworkConfig; 
+
+
+exports.createConfig = createConfig; 
+
