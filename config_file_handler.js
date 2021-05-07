@@ -1,4 +1,5 @@
-
+// TODO: 
+// - ADD input validation 
 
 const createOnboardingConfig = (deviceConfigObj) => {
   
@@ -18,11 +19,11 @@ const createOnboardingConfig = (deviceConfigObj) => {
   };
 
   
-const createNetworkConfig = (networkConfigObj) => {
+const createNetworkConfig = (networkConfigObj, layer2ConfigObj) => {
     //console.log(networkConfigObj["NUMBER OF INTERFACES*"]);
 /*
 TODO: 
-- read and add L2 configuration!!!
+- [x] read and add L2 configuration!!!
 
 */
     let interfaces = []; 
@@ -101,10 +102,31 @@ TODO:
     for (let j = 0 ; j < secondary_true_count; j++) {
       interfaces[secondary_ind[j]]["DNSConfig"]["SecondaryDNS"] = secondary_dns_ip[j].toString();
     };
+
+    // L2 Configuration
+    let layer2_config = networkConfigObj["L2 ACESS*"].toString().trim().split(',');
+
+    var layer2_conf = {
+      "StartingAddressIPv4": "",
+      "NetMask": "",
+      "Range": ""
+    };
+
+    let index = layer2_config.findIndex((element)=> {
+      return element.trim()=="true"
+    });
+    if (index != -1) {
+      layer2_conf.StartingAddressIPv4 = layer2ConfigObj["STARTING IP ADRESS"]
+      layer2_conf.NetMask = layer2ConfigObj["NETWORK MASK"]
+      layer2_conf.Range = layer2ConfigObj["RANGE"].toString()
+      Object.assign(interfaces[index],{"L2Conf" : layer2_conf})
+    }
+    console.log(interfaces);
+
   return interfaces; 
 };
   
-const createConfig = (deviceConfigObj,networkConfigObj) => {
+const createConfig = (deviceConfigObj,networkConfigObj, layer2ConfigObj) => {
   /*
   TODO: 
   - dockerIP 
@@ -116,7 +138,7 @@ const createConfig = (deviceConfigObj,networkConfigObj) => {
         "onboarding": createOnboardingConfig(deviceConfigObj),
         "Device": {
             "Network": {
-                "Interfaces": createNetworkConfig(networkConfigObj)
+                "Interfaces": createNetworkConfig(networkConfigObj,layer2ConfigObj)
             },
             "dockerIP": "172.16.0.0/16"
         },

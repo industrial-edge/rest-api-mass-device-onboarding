@@ -33,7 +33,7 @@ const proxy_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[5]]);
 
 var adresses = network_config[0]["MAC ADRESS*"].split(',');
 
-//console.log(network_config);
+console.log(layer2_config[0]);
 // creating config files 
 
 //console.log(handler.createOnboardingConfig(device_config[0]));
@@ -59,7 +59,7 @@ const onboardEdgeDevice = async () => {
     const resp_create = await axios({
       method: 'post', //you can set what request you want to be
       url: IEM_URL+'/portal/api/v1/devices',
-      data: handler.createConfig(device_config[0],network_config[0]),
+      data: handler.createConfig(device_config[0],network_config[0],layer2_config[0]),
       headers: {
         Authorization: 'BEARER ' + token,
         'Content-Type': 'application/json'
@@ -76,6 +76,12 @@ const onboardEdgeDevice = async () => {
 //------------------------------------- ONBOARDING EDGE DEVICE ---------------------------------------------------------------
   
 // create form data 
+/*
+TODO:
+- IP adress of edge device in API url 
+- Handle http request when static IP adress of device changes 
+*/
+
   const form = new FormData();
   form.append( 'files', fs.createReadStream('./config_file/device-config.txt'), 'device-config.txt' );
 
