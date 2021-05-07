@@ -20,6 +20,11 @@ const createOnboardingConfig = (deviceConfigObj) => {
   
 const createNetworkConfig = (networkConfigObj) => {
     //console.log(networkConfigObj["NUMBER OF INTERFACES*"]);
+/*
+TODO: 
+- read and add L2 configuration!!!
+
+*/
     let interfaces = []; 
     // basic network configuration 
     var basicNetwork = { 
@@ -100,6 +105,12 @@ const createNetworkConfig = (networkConfigObj) => {
 };
   
 const createConfig = (deviceConfigObj,networkConfigObj) => {
+  /*
+  TODO: 
+  - dockerIP 
+  - NTP servers 
+  - Proxy servers 
+  */
   return {
     "device": {
         "onboarding": createOnboardingConfig(deviceConfigObj),
