@@ -1,6 +1,7 @@
 // TODO: 
 // - ADD input validation 
 
+// Device configuration 
 const createOnboardingConfig = (deviceConfigObj) => {
   
     var obj = { 
@@ -18,7 +19,7 @@ const createOnboardingConfig = (deviceConfigObj) => {
     return Object.fromEntries(map);
   };
 
-  
+// Network configuration
 const createNetworkConfig = (networkConfigObj, layer2ConfigObj) => {
     //console.log(networkConfigObj["NUMBER OF INTERFACES*"]);
 /*
@@ -121,51 +122,112 @@ TODO:
       layer2_conf.Range = layer2ConfigObj["RANGE"].toString()
       Object.assign(interfaces[index],{"L2Conf" : layer2_conf})
     }
-    console.log(interfaces);
+
 
   return interfaces; 
 };
-  
-const createConfig = (deviceConfigObj,networkConfigObj, layer2ConfigObj) => {
+
+// Docker IP configuration
+const createDockerIPConfig = (dockerIPConfigObj) => {
+  let dockerIP; 
+  if (dockerIPConfigObj["DOCKER IP"]) {
+    dockerIP = dockerIPConfigObj["DOCKER IP"].toString().trim();
+  } else {
+    dockerIP = "";
+  }
+  return dockerIP;
+};
+
+// NTP configuration
+
+const createNTPConfig = (NTPConfigObj) => {
   /*
   TODO: 
-  - dockerIP 
-  - NTP servers 
+  [] Add preffered configuration - true/false
+  [] If not NTP configured -> then no "ntpServers" section
+  */
+  let NTP = [];
+  if (NTPConfigObj["NTP SERVER"]) {
+    let servers = NTPConfigObj["NTP SERVER"].split(',');
+    for (let j = 0; j < servers.length; j++) {
+      let obj = { "ntpServer": servers[j].toString().trim()};
+      NTP.push(obj);
+    }
+  } else {
+    let obj = { "ntpServer": ""};
+      NTP.push(obj);
+  }
+  return NTP;
+};
+  
+// Proxy configuration 
+
+const createProxyConfig = (proxyConfigObj) => {
+  var proxy = {
+      "host": "",
+      "protocol": "http",
+      "user": "",
+      "password": "",
+      "noProxy": "",
+      "customPorts": [
+      ]
+  };
+
+  if (proxyConfigObj["HOST"]) {
+    proxy.host = proxyConfigObj["HOST"].toString().trim();
+    proxy.protocol= proxyConfigObj["PROTOCOL"].toString().trim();
+    if (proxyConfigObj["USER"]) {
+      proxy.user= proxyConfigObj["USER"].toString().trim();
+      proxy.password= proxyConfigObj["PASSWORD"].toString().trim();
+    }
+    if (proxyConfigObj["NO PROXY"]) {
+      proxy.noProxy= proxyConfigObj["NO PROXY"].toString().trim();
+    }
+    let ports = proxyConfigObj["CUSTOM PORTS"].split(',');
+    for (let j = 0; j < ports.length; j++) {
+      ports[j]= ports[j].toString().trim();
+    }
+    if (ports.length != 0) {
+      proxy.customPorts = ports;
+    }
+    return proxy
+  } else {
+    return null
+  }
+  
+};
+
+
+
+const createConfig = (deviceConfigObj,networkConfigObj, layer2ConfigObj, dockerIPConfigObj, NTPConfigObj,proxyConfigObj) => {
+  /*
+  TODO: 
+  - [x] dockerIP 
+  - [x] NTP servers 
   - Proxy servers 
   */
-  return {
+  var obj =  {
     "device": {
         "onboarding": createOnboardingConfig(deviceConfigObj),
         "Device": {
             "Network": {
                 "Interfaces": createNetworkConfig(networkConfigObj,layer2ConfigObj)
             },
-            "dockerIP": "172.16.0.0/16"
+            "dockerIP": createDockerIPConfig(dockerIPConfigObj)
         },
-        "ntpServers": [
-            {
-                "ntpServer": "time.google.com"
-            },
-            {
-                "ntpServer": "0.pool.ntp.org"
-            }
-        ],
-        "proxies": [
-            {
-                "host": "192.168.80.144:3128",
-                "protocol": "http",
-                "noProxy": "192.168.1.107",
-                "customPorts": [
-                    1234,
-                    5478
-                ]
-            }
-        ]
+        "ntpServers": createNTPConfig(NTPConfigObj)
     }
   }
+
+  if (createProxyConfig(proxyConfigObj) != null) {
+    obj.device.proxies = [createProxyConfig(proxyConfigObj)];
+  }
+
+  return obj
+
 };
 
 
 
 exports.createConfig = createConfig; 
-
+exports.createProxyConfig= createProxyConfig;
