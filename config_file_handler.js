@@ -1,5 +1,5 @@
 // TODO: 
-// - ADD input validation 
+// - [] ADD input validation 
 
 // Device configuration 
 const createOnboardingConfig = (deviceConfigObj) => {
@@ -53,11 +53,11 @@ TODO:
     let dhcp = networkConfigObj["DHCP*"].toString().split(',');
   
     for (let j = 0; j < dhcp.length; j++) {
-      if (dhcp[j]== "disabled") {
+      if (dhcp[j].toString().trim() == "disabled") {
         const map = new Map();
         let keys = Object.keys(static)
         for (let i = 6; i <= 8; i++) {
-          map.set(keys[i-6], Object.values(networkConfigObj)[i].toString().split(',')[j]);
+          map.set(keys[i-6], Object.values(networkConfigObj)[i].toString().split(',')[j].trim());
         }
         Object.assign(interfaces[j],{"Static" : Object.fromEntries(map)})
       } else {
@@ -92,17 +92,19 @@ TODO:
       
     };
       
-  
-    let primary_dns_ip = networkConfigObj["PRIMARY DNS IP*"].toString().split(',');
-    let secondary_dns_ip = networkConfigObj["SECONDARY DNS IP*"].toString().split(',');
-  
-  
-    for (let j = 0 ; j < primary_true_count; j++) {
-      interfaces[primary_ind[j]]["DNSConfig"]["PrimaryDNS"] = primary_dns_ip[j].toString();
-    };
-    for (let j = 0 ; j < secondary_true_count; j++) {
-      interfaces[secondary_ind[j]]["DNSConfig"]["SecondaryDNS"] = secondary_dns_ip[j].toString();
-    };
+    if (primary_true_count > 0) {
+      let primary_dns_ip = networkConfigObj["PRIMARY DNS IP*"].toString().split(',');
+      for (let j = 0 ; j < primary_true_count; j++) {
+        interfaces[primary_ind[j]]["DNSConfig"]["PrimaryDNS"] = primary_dns_ip[j].toString();
+      };
+    }
+      
+    if (secondary_true_count > 0) {
+      let secondary_dns_ip = networkConfigObj["SECONDARY DNS IP*"].toString().split(',');
+      for (let j = 0 ; j < secondary_true_count; j++) {
+        interfaces[secondary_ind[j]]["DNSConfig"]["SecondaryDNS"] = secondary_dns_ip[j].toString();
+      };
+    }
 
     // L2 Configuration
     let layer2_config = networkConfigObj["L2 ACESS*"].toString().trim().split(',');
@@ -204,7 +206,7 @@ const createConfig = (deviceConfigObj,networkConfigObj, layer2ConfigObj, dockerI
   TODO: 
   - [x] dockerIP 
   - [x] NTP servers 
-  - Proxy servers 
+  - [x] Proxy servers 
   */
   var obj =  {
     "device": {

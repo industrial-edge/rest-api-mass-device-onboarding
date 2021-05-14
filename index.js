@@ -37,10 +37,10 @@ var adresses = network_config[0]["MAC ADRESS*"].split(',');
 // creating config files 
 
 
-console.log(handler.createConfig(device_config[0],network_config[0],layer2_config[0],dockerIP_config[0], ntp_config[0],proxy_config[0]));
+console.log(handler.createConfig(device_config[0],network_config[0],layer2_config[0],dockerIP_config[0], ntp_config[0],proxy_config[0]).device.Device.Network.Interfaces[1]);
 
+// API Calls
 // Async/Await solution
-
 let token; 
 const onboardEdgeDevice = async () => {
 //------------------------------------- LOGGING TO IEM ---------------------------------------------------------------
@@ -78,9 +78,10 @@ const onboardEdgeDevice = async () => {
 // create form data 
 /*
 TODO:
-- IP adress of edge device in API url 
-- Handle http request when static IP adress of device changes 
+- [] IP adress of edge device in API url 
+- [] Handle http request when static IP adress of device changes 
 */
+
 
   const form = new FormData();
   form.append( 'files', fs.createReadStream('./config_file/device-config.txt'), 'device-config.txt' );

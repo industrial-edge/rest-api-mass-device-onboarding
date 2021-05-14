@@ -1,0 +1,1 @@
+- DNS config is still there even it was not configured (even when onboarding oveR UI - clarify)
