@@ -35,14 +35,22 @@ var adresses = network_config[0]["MAC ADRESS*"].split(',');
 
 //console.log(layer2_config[0]);
 // creating config files 
+//console.log(handler.createConfig(device_config[1],network_config[1],layer2_config[1],dockerIP_config[1], ntp_config[1],proxy_config[1]));
 
 
-console.log(handler.createConfig(device_config[0],network_config[0],layer2_config[0],dockerIP_config[0], ntp_config[0],proxy_config[0]).device.Device.Network.Interfaces[1]);
+// Creating COnfiguration Files for all devices 
+let devicesConfFiles = [];
+for (let j = 0; j < device_config.length; j++) {
+  devicesConfFiles.push(handler.createConfig(device_config[j],network_config[j],layer2_config[j],dockerIP_config[j], ntp_config[j],proxy_config[j]))
+}
+
+console.log(devicesConfFiles);
 
 // API Calls
 // Async/Await solution
+
 let token; 
-const onboardEdgeDevice = async () => {
+const onboardEdgeDevice = async (configFile,deviceIP) => {
 //------------------------------------- LOGGING TO IEM ---------------------------------------------------------------
   console.log("Logging to IEM ...");
   try {
@@ -59,7 +67,7 @@ const onboardEdgeDevice = async () => {
     const resp_create = await axios({
       method: 'post', //you can set what request you want to be
       url: IEM_URL+'/portal/api/v1/devices',
-      data: handler.createConfig(device_config[0],network_config[0],layer2_config[0],dockerIP_config[0], ntp_config[0],proxy_config[0]),
+      data: configFile,
       headers: {
         Authorization: 'BEARER ' + token,
         'Content-Type': 'application/json'
@@ -86,7 +94,7 @@ TODO:
   const form = new FormData();
   form.append( 'files', fs.createReadStream('./config_file/device-config.txt'), 'device-config.txt' );
 
-  const resp_onboard = await axios.post('https://192.168.1.108/device/edge/api/v1/activate', form, {
+  const resp_onboard = await axios.post('https://'+deviceIP+'/device/edge/api/v1/activate', form, {
     headers: form.getHeaders(),
   });
 
@@ -98,5 +106,9 @@ TODO:
 
 };
 
-onboardEdgeDevice();
+for (let i = 0; i < devicesConfFiles.length; i++) {
+  onboardEdgeDevice(devicesConfFiles[i], network_config[i]["IP ADRESS*"]);
+}
+
+
 
