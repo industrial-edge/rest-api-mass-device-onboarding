@@ -53,6 +53,7 @@ let token;
 const onboardEdgeDevice = async (configFile,deviceIP) => {
 //------------------------------------- LOGGING TO IEM ---------------------------------------------------------------
   console.log("Logging to IEM ...");
+  let device_file = configFile.device.onboarding.deviceName;
   try {
     const resp_login = await axios.post(IEM_URL+'/portal/api/v1/login/direct', {
       "username": "pavel.halama@siemens.com",
@@ -76,7 +77,7 @@ const onboardEdgeDevice = async (configFile,deviceIP) => {
 
   console.log(resp_create.request.body);
 // save response as config file 
-  fs.writeFile('./config_file/device-config.txt', JSON.stringify(resp_create.data), (err) => {
+  fs.writeFile(`./config_file/${device_file}.txt`, JSON.stringify(resp_create.data), (err) => {
   if (err) throw err;
   console.log('File saved!');
   });
@@ -92,7 +93,7 @@ TODO:
 
 
   const form = new FormData();
-  form.append( 'files', fs.createReadStream('./config_file/device-config.txt'), 'device-config.txt' );
+  form.append( 'files', fs.createReadStream(`./config_file/${device_file}.txt`), `${device_file}.txt` );
 
   const resp_onboard = await axios.post('https://'+deviceIP+'/device/edge/api/v1/activate', form, {
     headers: form.getHeaders(),
