@@ -5,6 +5,8 @@ services:
         build:
             context: ./src
         image: device-onboarder:1.0.0
+        env_file: 
+            - .env
         volumes:
             - ./src:/usr/app/
         network_mode: host

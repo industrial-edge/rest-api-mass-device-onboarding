@@ -7,7 +7,10 @@ const handler = require('./config_file_handler.js')
 
 // Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-const IEM_URL = 'https://192.168.1.107:9443';
+const IEM_URL = process.env.IEM_URL_ENV;
+// 'https://192.168.1.107:9443';
+
+console.log(IEM_URL);
 
 // Reading excel list as .xlsx file 
 const file = xlsx.readFile('./devices/edge_devices_v0.0.1.xlsx');
