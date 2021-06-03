@@ -3,8 +3,8 @@ version: '2.4'
 services:
     device-onboarder:
         build:
-            context: ./app
+            context: ./src
         image: device-onboarder:1.0.0
         volumes:
-            - ./app:/usr/app/
+            - ./src:/usr/app/
         network_mode: host
