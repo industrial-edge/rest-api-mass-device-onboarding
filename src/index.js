@@ -90,8 +90,12 @@ const onboardEdgeDevice = async (configFile,deviceIP) => {
 // create form data 
 /*
 TODO:
-- [] IP adress of edge device in API url 
+- [x] IP adress of edge device in API url 
 - [] Handle http request when static IP adress of device changes 
+    - [] Check whether the IP adress of getaway adress changed 
+          -> if not nothing happens 
+          -> if yes wait for some time and cancel the request 
+    
 */
 
 

@@ -8,5 +8,6 @@ services:
         env_file: 
             - .env
         volumes:
-            - ./src:/usr/app/
+            - ./src/devices:/usr/src/app/devices/
+            - ./src/config_file:/usr/src/app/config_file/
         network_mode: host
