@@ -29,8 +29,8 @@ Public Edge Management's and Edge Device's API enable us to interact with a syst
 ### Prerequisites
 
 - Installed Industrial Edge Management
-- Linux VM (will be used for Jenkins) with docker and docker-compose installed
-- VM has connection to IEM
+- Linux VM with docker and docker-compose installed
+- Linux VM has connection to IEM
 - Edge Device is setup with known IP adress
 
 
