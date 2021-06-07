@@ -98,18 +98,36 @@ TODO:
     
 */
 
-
+  const CancelToken = axios.CancelToken;
+  let cancel;
+  setTimeout(() => {
+    cancel();
+    console.log("Request cancelled...");
+  }, 1*60*1000);
   const form = new FormData();
   form.append( 'files', fs.createReadStream(`./config_file/${device_file}.txt`), `${device_file}.txt` );
 
   const resp_onboard = await axios.post('https://'+deviceIP+'/device/edge/api/v1/activate', form, {
     headers: form.getHeaders(),
+    cancelToken: new CancelToken(function executor(c) {
+      // An executor function receives a cancel function as a parameter
+      cancel = c;
+    })
   });
+
+  
+
+
 
   console.log(resp_onboard);
 
   } catch (error) {
-    console.log(error);
+    if (axios.isCancel(error)) {
+      console.log("Request cancelled");
+    }else{
+      console.log(error);
+    }
+    
   }
 
 };
