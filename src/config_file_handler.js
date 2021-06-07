@@ -230,6 +230,25 @@ const createConfig = (deviceConfigObj,networkConfigObj, layer2ConfigObj, dockerI
 };
 
 
+const isDeviceIPChanged = (interfaces,deviceIP) => {
+  let result; 
+  for (let j = 0; j < interfaces.length; j++) {
+    let gatewayInterface = interfaces[j].GatewayInterface; 
+    if (gatewayInterface.toString().trim() == "true") {
+      if (deviceIP.toString().trim() == (interfaces[j].Static.IPv4).toString().trim()) {
+        result = false;
+      } else {
+        result = true;
+      }
+    }
+    
+  }
+
+  return result; 
+    
+};
+
 
 exports.createConfig = createConfig; 
 exports.createProxyConfig= createProxyConfig;
+exports.isDeviceIPChanged= isDeviceIPChanged;

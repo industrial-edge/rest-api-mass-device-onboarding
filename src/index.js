@@ -100,10 +100,14 @@ TODO:
 
   const CancelToken = axios.CancelToken;
   let cancel;
-  setTimeout(() => {
-    cancel();
-    console.log("Request cancelled...");
-  }, 1*60*1000);
+  console.log("Device changed? =>"+ handler.isDeviceIPChanged(configFile.device.Device.Network.Interfaces,deviceIP));
+  if (handler.isDeviceIPChanged(configFile.device.Device.Network.Interfaces,deviceIP)) {
+    setTimeout(() => {
+      cancel();
+      console.log("Request cancelled...");
+    }, 1*60*1000);
+  }
+  
   const form = new FormData();
   form.append( 'files', fs.createReadStream(`./config_file/${device_file}.txt`), `${device_file}.txt` );
 
