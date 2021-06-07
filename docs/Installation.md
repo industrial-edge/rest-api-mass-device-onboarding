@@ -9,7 +9,7 @@ This documentation shows how to use provided application that can automaticaly o
 
 To use provided docker based application to onboard your edge devices, follow the provided steps.
 
-1. Clone this repository to your Linux VM that has connection to your IEM.
+1. Clone this repository to your Linux VM that has connection to your IEM.\
 **_Pro Tip:_**  This application can be integrated into CI/CD pipeline that runs on a CI/CD server.
 
 2. Setup and connect your edge devices to your network which has acess to the IEM and with a DHCP server available. At the end of this step, you should have the edge devices connected with a know IP adresses and ready to be activated.
