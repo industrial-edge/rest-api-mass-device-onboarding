@@ -1,0 +1,19 @@
+version: '2.4'
+
+services:
+    upload-over-ui:
+        build: ./upload_over_ui
+        image: upload-over-ui:0.1.1
+        ports: 
+            - "3001:3001"
+        volumes: 
+            - ./myVolume:/usr/src/app/devices
+
+    device-onboarder:
+        build:
+            context: ./onboard_device
+        image: device-onboarder:0.1.1
+        volumes:
+            - ./myVolume:/usr/src/app/devices
+        network_mode: host
+        restart: on-failure

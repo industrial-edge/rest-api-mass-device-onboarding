@@ -7,7 +7,7 @@ const handler = require('./config_file_handler.js')
 
 // Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-const IEM_URL = process.env.IEM_URL_ENV;
+const IEM_URL = 'https://192.168.1.107:9443';
 // 'https://192.168.1.107:9443';
 
 console.log(IEM_URL);
