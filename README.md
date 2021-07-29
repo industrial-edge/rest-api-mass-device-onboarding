@@ -1,8 +1,8 @@
-# Automatic Edge Device onboarding
+# Mass Edge Device onboarding
 
 Automate process of onboarding and activating Edge Devices using public API. 
 
-- [Automatic Edge Device onboarding](#automatic-edge-device-onboarding)
+- [Mass Edge Device onboarding](#mass-edge-device-onboarding)
   - [Description](#description)
     - [Overview](#overview)
     - [General task](#general-task)
