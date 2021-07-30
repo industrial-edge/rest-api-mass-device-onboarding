@@ -19,10 +19,11 @@ To use provided docker based application to onboard your edge devices, follow th
 4. Open the provided [excel-file](../src/devices/edge_devices_v0.0.1.xlsx) and fill out the excel sheets devided based on different edge device configuration. Required fieds are marked with a "*" symbol. Each device should have a unique ID starting from 1. If you want to have no configuration of your edge device in a certain configuration sheet, leave the colomn empty, but the ID still **has** to be there.
 
 5. Save your excel file.
-
-6. Build the application by using docker-compose build command and tag this app based on your needs. 
-7. Upload this application to IEM by using IE App Publisher. 
-8. Deploy your application to the first edge device. 
-9. Go to the device and access the app's UI. Click on "uplaod file" and choose the excel file with configured edge devices. 
-10. The process of onboarding then starts automatically. 
-11. If none of the edge devices uccure in IEM, download the app logs for more information. 
+6. Adjust your IEM credentials in [index.js](./../src/onboard_device/index.js) (IEM_URL, IEM_USERNAME, IEM_PASSWORD)
+   
+7. Build the application by using docker-compose build command and tag this app based on your needs. 
+8. Upload this application to IEM by using IE App Publisher. 
+9.  Deploy your application to the first edge device. 
+10. Go to the device and access the app's UI. Click on "uplaod file" and choose the excel file with configured edge devices. 
+11. The process of onboarding then starts automatically. 
+12. If none of the edge devices uccure in IEM, download the app logs for more information. 
