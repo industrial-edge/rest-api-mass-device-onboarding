@@ -8,9 +8,9 @@ const handler = require('./config_file_handler.js')
 // Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // ADJSUT THESE PARAMETERS !!!
-const IEM_URL = 'https://192.168.1.107:9443';
-const IEM_USERNAME = '';
-const IEM_PASSWORD = '';
+const IEM_URL = 'https://192.168.1.90:9443';
+const IEM_USERNAME = 'pavel.halama@siemens.com';
+const IEM_PASSWORD = 'Edge4SUP!';
 // 'https://192.168.1.107:9443';
 
 console.log(IEM_URL);

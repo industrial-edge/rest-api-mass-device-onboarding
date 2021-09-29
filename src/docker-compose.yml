@@ -3,7 +3,7 @@ version: '2.4'
 services:
     upload-over-ui:
         build: ./upload_over_ui
-        image: upload-over-ui:0.1.1
+        image: upload-over-ui:0.0.2
         ports: 
             - "3001:3001"
         volumes: 
@@ -12,7 +12,7 @@ services:
     device-onboarder:
         build:
             context: ./onboard_device
-        image: device-onboarder:0.1.1
+        image: device-onboarder:0.0.2
         volumes:
             - ./myVolume:/usr/src/app/devices
         network_mode: host
