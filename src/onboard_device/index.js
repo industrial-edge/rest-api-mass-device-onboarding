@@ -8,31 +8,31 @@ const handler = require('./config_file_handler.js')
 
 // Enviroment Variables 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-// ADJSUT THESE PARAMETERS !!!
-const IEM_URL = 'https://192.168.1.90:9443';
-const IEM_USERNAME = 'pavel.halama@siemens.com';
-const IEM_PASSWORD = 'Edge4SUP!';
-// 'https://192.168.1.107:9443';
-
-console.log(IEM_URL);
 
 // Reading excel list as .xlsx file 
-const file = xlsx.readFile('./devices/edge_devices_v0.0.1.xlsx');
+const file = xlsx.readFile('./devices/edge_devices.xlsx');
 console.log('File succesfully read...');
 const sheets = file.SheetNames;
 
+// IEM Config
+const iem_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[0]]);
 // Device Config
-const device_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[0]]);
+const device_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[1]]);
 // Network config
-const network_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[1]]);
+const network_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[2]]);
 // Layer 2 Config
-const layer2_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[2]]);
+const layer2_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[3]]);
 // Docker IP Config
-const dockerIP_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[3]]);
+const dockerIP_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[4]]);
 // NTP Config
-const ntp_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[4]]);
+const ntp_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[5]]);
 // PROXY Config
-const proxy_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[5]]);
+const proxy_config = xlsx.utils.sheet_to_json(file.Sheets[file.SheetNames[6]]);
+
+// IEM configuration variables
+const IEM_URL = iem_config[0]["IEM URL*"].toString();
+const IEM_USERNAME = iem_config[0]["IEM USERNAME*"].toString();
+const IEM_PASSWORD = iem_config[0]["IEM PASSWORD*"].toString();
 
 // Printing data
 //console.log(device_config[0]);
@@ -142,9 +142,10 @@ const onboardEdgeDevice = async (configFile, deviceIP) => {
 
 };
 
-for (let i = 0; i < devicesConfFiles.length; i++) {
-  onboardEdgeDevice(devicesConfFiles[i], network_config[i]["IP ADRESS*"]);
-}
+const onboardOneByOne = async () => {
+  for (let i = 0; i < devicesConfFiles.length; i++) {
+    await onboardEdgeDevice(devicesConfFiles[i], network_config[i]["IP ADRESS*"]);
+  }
+};
 
-
-
+onboardOneByOne();
