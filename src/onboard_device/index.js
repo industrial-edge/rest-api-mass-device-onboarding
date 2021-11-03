@@ -1,6 +1,7 @@
 // bringing node packages 
 const axios = require("axios").default;
-const fs = require('fs');
+const fs = require('fs').promises;
+const fss = require('fs');
 const FormData = require('form-data');
 const xlsx = require('xlsx');
 const handler = require('./config_file_handler.js')
@@ -83,10 +84,12 @@ const onboardEdgeDevice = async (configFile, deviceIP) => {
 
     console.log(resp_create.request.body);
     // save response as config file 
-    fs.writeFile(`./config_file/${device_file}.txt`, JSON.stringify(resp_create.data), (err) => {
-      if (err) throw err;
-      console.log('File saved!');
-    });
+    try {
+      await fs.writeFile(`./config_file/${device_file}.txt`, JSON.stringify(resp_create.data)); // need to be in an async function
+      console.log("File Saved!"); // the contents of file1.js
+    } catch (error) {
+      console.log(error)
+    }
 
     //------------------------------------- ONBOARDING EDGE DEVICE ---------------------------------------------------------------
 
@@ -112,7 +115,7 @@ const onboardEdgeDevice = async (configFile, deviceIP) => {
     }
 
     const form = new FormData();
-    form.append('files', fs.createReadStream(`./config_file/${device_file}.txt`), `${device_file}.txt`);
+    form.append('files', fss.createReadStream(`./config_file/${device_file}.txt`), `${device_file}.txt`);
 
     const resp_onboard = await axios.post('https://' + deviceIP + '/device/edge/api/v1/activate', form, {
       headers: form.getHeaders(),
