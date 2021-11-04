@@ -24,6 +24,8 @@ This application example shows how to create application that interacts with IEM
 
 Public Edge Management's and Edge Device's API enable us to interact with a system and automate different processes. One of the process that can be automated is onboarding of Edge Devices to the IEM. Provided documentation describes how this can be done using Node.js application. The functionality of the application is as follows. When your Edge Device(s) are setup and have its own IP adress(es), you can configure the device configuration in provided [excel list](./src/devices/edge_devices.xlsx). Different configurations are devided in sheets and required information is highlighted with "*" symbol. When you are done configuring the edge devices, you can run the application which then onboards all your edge devices to the IEM using different API calls. The application can run either as a standalone application or on another edge device. The process is done synchronosly, so the devices are onboarded one after another to prevent IEM overload. More information can be found in [docs](./docs/).
 
+![MassOnboard](./docs/graphics/mass_onboard.PNG)
+
 ## Requirements
 
 ### Prerequisites
