@@ -1,4 +1,4 @@
-// bringing node packages 
+// Bringing node packages 
 const axios = require("axios").default;
 const fs = require('fs').promises;
 const fss = require('fs');
@@ -34,28 +34,15 @@ const IEM_URL = iem_config[0]["IEM URL*"].toString();
 const IEM_USERNAME = iem_config[0]["IEM USERNAME*"].toString();
 const IEM_PASSWORD = iem_config[0]["IEM PASSWORD*"].toString();
 
-// Printing data
-//console.log(device_config[0]);
-//console.log(typeof network_config[0]["MAC ADRESS*"]);
-
-var adresses = network_config[0]["MAC ADRESS*"].split(',');
-
-//console.log(layer2_config[0]);
-// creating config files 
-//console.log(handler.createConfig(device_config[1],network_config[1],layer2_config[1],dockerIP_config[1], ntp_config[1],proxy_config[1]));
-
 
 // Creating COnfiguration Files for all devices 
 let devicesConfFiles = [];
 for (let j = 0; j < device_config.length; j++) {
   devicesConfFiles.push(handler.createConfig(device_config[j], network_config[j], layer2_config[j], dockerIP_config[j], ntp_config[j], proxy_config[j]))
 }
-
 console.log(devicesConfFiles);
 
-// API Calls
-// Async/Await solution
-
+// Async function for creating onboarding file for device based on configuration in excel file
 let token;
 const onboardEdgeDevice = async (configFile, deviceIP) => {
   //------------------------------------- LOGGING TO IEM ---------------------------------------------------------------
@@ -93,16 +80,7 @@ const onboardEdgeDevice = async (configFile, deviceIP) => {
 
     //------------------------------------- ONBOARDING EDGE DEVICE ---------------------------------------------------------------
 
-    // create form data 
-    /*
-    TODO:
-    - [x] IP adress of edge device in API url 
-    - [x] Handle http request when static IP adress of device changes 
-        - [x] Check whether the IP adress of getaway adress changed 
-              -> if not nothing happens 
-              -> if yes wait for some time and cancel the request 
-        
-    */
+    // cancel request if IP of the device changed
 
     const CancelToken = axios.CancelToken;
     let cancel;
@@ -124,9 +102,6 @@ const onboardEdgeDevice = async (configFile, deviceIP) => {
         cancel = c;
       })
     });
-
-
-
 
 
     console.log(resp_onboard);
