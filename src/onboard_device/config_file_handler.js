@@ -1,5 +1,6 @@
+// File which consist of functions for creating configuration files of edge devices to be onboarded and configured from excel file
 
-// Device configuration 
+// ---------------------- Basic device configuration ----------------------
 const createOnboardingConfig = (deviceConfigObj) => {
 
   var obj = {
@@ -17,7 +18,7 @@ const createOnboardingConfig = (deviceConfigObj) => {
   return Object.fromEntries(map);
 };
 
-// Network configuration
+// ---------------------- Network configuration ----------------------
 const createNetworkConfig = (networkConfigObj, layer2ConfigObj) => {
 
   let interfaces = [];
@@ -88,14 +89,14 @@ const createNetworkConfig = (networkConfigObj, layer2ConfigObj) => {
   if (primary_true_count > 0) {
     let primary_dns_ip = networkConfigObj["PRIMARY DNS IP*"].toString().split(',');
     for (let j = 0; j < primary_true_count; j++) {
-      interfaces[primary_ind[j]]["DNSConfig"]["PrimaryDNS"] = primary_dns_ip[j].toString();
+      interfaces[primary_ind[j]]["DNSConfig"]["PrimaryDNS"] = primary_dns_ip[j].toString().trim();
     };
   }
 
   if (secondary_true_count > 0) {
     let secondary_dns_ip = networkConfigObj["SECONDARY DNS IP*"].toString().split(',');
     for (let j = 0; j < secondary_true_count; j++) {
-      interfaces[secondary_ind[j]]["DNSConfig"]["SecondaryDNS"] = secondary_dns_ip[j].toString();
+      interfaces[secondary_ind[j]]["DNSConfig"]["SecondaryDNS"] = secondary_dns_ip[j].toString().trim();
     };
   }
 
@@ -122,7 +123,7 @@ const createNetworkConfig = (networkConfigObj, layer2ConfigObj) => {
   return interfaces;
 };
 
-// Docker IP configuration
+// ---------------------- Docker IP configuration ----------------------
 const createDockerIPConfig = (dockerIPConfigObj) => {
   let dockerIP;
   if (dockerIPConfigObj["DOCKER IP"]) {
@@ -133,8 +134,7 @@ const createDockerIPConfig = (dockerIPConfigObj) => {
   return dockerIP;
 };
 
-// NTP configuration
-
+// ---------------------- NTP configuration ----------------------
 const createNTPConfig = (NTPConfigObj) => {
   let NTP = [];
   if (NTPConfigObj["NTP SERVER"]) {
@@ -150,8 +150,7 @@ const createNTPConfig = (NTPConfigObj) => {
   return NTP;
 };
 
-// Proxy configuration 
-
+// ---------------------- Proxy configuration ----------------------
 const createProxyConfig = (proxyConfigObj) => {
   var proxy = {
     "host": "",
@@ -188,7 +187,7 @@ const createProxyConfig = (proxyConfigObj) => {
 };
 
 
-
+// ---------------------- Put configurations in one config object ----------------------
 const createConfig = (deviceConfigObj, networkConfigObj, layer2ConfigObj, dockerIPConfigObj, NTPConfigObj, proxyConfigObj) => {
 
   var obj = {
@@ -212,7 +211,7 @@ const createConfig = (deviceConfigObj, networkConfigObj, layer2ConfigObj, docker
 
 };
 
-
+// ---------------------- Function to check if the device IP changed ----------------------
 const isDeviceIPChanged = (interfaces, deviceIP) => {
   let result;
   for (let j = 0; j < interfaces.length; j++) {
@@ -231,7 +230,7 @@ const isDeviceIPChanged = (interfaces, deviceIP) => {
 
 };
 
-
+// ---------------------- Export used functions ----------------------
 exports.createConfig = createConfig;
 exports.createProxyConfig = createProxyConfig;
 exports.isDeviceIPChanged = isDeviceIPChanged;
