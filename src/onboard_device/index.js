@@ -151,11 +151,11 @@ const onboardEdgeDevice = async (configFile, deviceIP) => {
 };
 
 // Async function for creating report of which devices successfully onboarded. The report is created in the same excel file in sheet called "REPORT"
-const reportEdgeDevice = async (configFile, deviceIP, file, ws_name, id) => {
+const reportEdgeDevice = async (configFile, deviceIP, ws, id) => {
   //------------------------------------- CREATING REPORT ---------------------------------------------------------------
 
   // get current sheet data
-  const before = xlsx.utils.sheet_to_json(file.Sheets[ws_name]);
+  const before = xlsx.utils.sheet_to_json(ws);
   let device_file_name = configFile.device.onboarding.deviceName;
 
   let onboardedDeviceIP = getOnboardedDeviceIP(configFile.device.Device.Network.Interfaces, deviceIP)
@@ -200,7 +200,7 @@ const reportEdgeDevice = async (configFile, deviceIP, file, ws_name, id) => {
     before.push(v)
   }
   // Add data to the sheet
-  xlsx.utils.sheet_add_json(file.Sheets[ws_name], before)
+  xlsx.utils.sheet_add_json(ws, before)
 }
 
 // Async function for onboarding of edge device
@@ -212,28 +212,32 @@ const onboardOneByOne = async () => {
 };
 
 // Async function for reporting of edge device
-const reportOneByOne = async (file, ws_name) => {
+const reportOneByOne = async (file, ws) => {
   for (let i = 0; i < devicesConfFiles.length; i++) {
-    await reportEdgeDevice(devicesConfFiles[i], network_config[i]["IP ADRESS*"], file, ws_name, i);
-    xlsx.writeFile(file, './devices/edge_devices.xlsx');
+    await reportEdgeDevice(devicesConfFiles[i], network_config[i]["IP ADRESS*"], ws, i);
+    xlsx.writeFile(file, './devices/report.xlsx');
   }
 };
 
 // Main async function which controls calling of the functions above.
-const onboardAndReportEdgeDevices = async (file, ws_name) => {
+const onboardAndReportEdgeDevices = async (file, ws) => {
   console.log("---------------------- Start of device onboarding and activating. ----------------------");
   await onboardOneByOne();
   console.log("---------------------- Waiting for the devices to get activated ----------------------");
   const resolved = await timeoutPromise(60000)
   console.log("Waiting ended: " + resolved);
   console.log("---------------------- Start creating report of onboarded edge devices ----------------------");
-  await reportOneByOne(file, ws_name);
+  await reportOneByOne(file, ws);
   console.log("---------------------- End of the process of onboarding and reporting ----------------------");
 }
 
 // Worksheet for REPORT
 const ws_name = "REPORT"
+let data = []
+const wb = xlsx.utils.book_new();
+var ws = xlsx.utils.aoa_to_sheet(data);
+xlsx.utils.book_append_sheet(wb, ws, ws_name);
 
 // Call main function
-onboardAndReportEdgeDevices(file, ws_name)
+onboardAndReportEdgeDevices(wb, ws)
 
