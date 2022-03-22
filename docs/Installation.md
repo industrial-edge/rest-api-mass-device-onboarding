@@ -1,6 +1,6 @@
 # Mass Edge Device onboarding
 
-This documentation shows how to use provided application that can automaticaly onboard edge devices to IEM over public API.
+This documentation shows how to use provided application that can automatically onboard edge devices to IEM over public API.
 
 - [Mass Edge Device onboarding](#mass-edge-device-onboarding)
   - [Installation steps](#installation-steps)

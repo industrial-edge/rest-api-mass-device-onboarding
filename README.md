@@ -18,13 +18,21 @@ Automate process of onboarding and activating Edge Devices using public API. Wit
 
 ### Overview
 
-This application example shows how to create application that interacts with IEM and IED public API to automaticaly onboard Edge Devices to IEM.
+This application example shows how to create application that interacts with IEM and IED public API to automaticaly onboard and activate connected Edge Devices to the IEM.
 
 ### General task
 
-Public Edge Management's and Edge Device's API enable us to interact with a system and automate different processes. One of the process that can be automated is onboarding of Edge Devices to the IEM. Provided documentation describes how this can be done using Node.js application. The functionality of the application is as follows. When your Edge Device(s) are setup and have its own IP adress(es), you can configure the device configuration in provided [excel list](./src/devices/edge_devices.xlsx). Different configurations are devided in sheets and required information is highlighted with "*" symbol. When you are done configuring the edge devices, you can run the application which then onboards all your edge devices to the IEM using different API calls. The application can run either as a standalone application or on another edge device. The process is done synchronosly, so the devices are onboarded one after another to prevent IEM overload. More information can be found in [docs](./docs/).
+Public Edge Management's and Edge Device's API enable us to interact with a system and automate different processes. One of the process that can be automated is onboarding of Edge Devices to the IEM. Provided documentation describes how this can be done using Node.js application. The functionality of the application is as follows. When your Edge Device(s) are setup and have its own IP adress(es), you can configure the device configuration in provided excel list. The excel file has a strict structure which has to be followed in order for tha application to run correctly. Different configurations are divided in sheets and required information in the each sheet is highlighted with "*" symbol. The provided file consists of some representative examples.
 
-![MassOnboard](./docs/graphics/mass_onboard.PNG)
+ When you are done configuring the edge devices, you can run the application which then onboards all your edge devices to the IEM using different API calls. The application can run either as a standalone docker-based application or run on another edge device. The process is done synchronosly, so the devices are onboarded one after another to prevent IEM overload. More information can be found in [docs](./docs/). The pictures below show the network configuration for each use case. **Important!** This example follows the approach of running the application on edge device.
+
+**Application runs on separate server**
+
+![MassOnboard](./docs/graphics/mass_onboard_server.PNG)
+ 
+ **Application runs on another device**
+ 
+![MassOnboard](./docs/graphics/mass_onboard_device.PNG)
 
 ## Requirements
 
@@ -32,20 +40,19 @@ Public Edge Management's and Edge Device's API enable us to interact with a syst
 
 - Installed Industrial Edge Management
 - Linux VM with docker and docker-compose installed
-- Linux VM has connection to IEM
-- Edge Device is setup with known IP adress
+- Edge Devices are setup with known IP and MAC addresses
 
 
 ### Used components
 
-- Industrial Edge Device V 1.2.0-56
-- Industrial Edge Management V 1.2.14
+- Industrial Edge Device V 1.5.0-56
+- Industrial Edge Management V 1.5.6
 - VM Ubuntu 20.04
 - Docker 19.03.13
 
 ## Installation steps
 
-
+The installation steps can be found [here](docs/Installation.md).
 
 ## Documentation
 
