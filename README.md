@@ -6,6 +6,8 @@ Automate process of onboarding and activating Edge Devices using public API. Wit
   - [Description](#description)
     - [Overview](#overview)
     - [General task](#general-task)
+      - [**Application runs on separate server**](#application-runs-on-separate-server)
+      - [**Application runs on another device**](#application-runs-on-another-device)
   - [Requirements](#requirements)
     - [Prerequisites](#prerequisites)
     - [Used components](#used-components)
@@ -26,11 +28,11 @@ Public Edge Management's and Edge Device's API enable us to interact with a syst
 
  When you are done configuring the edge devices, you can run the application which then onboards all your edge devices to the IEM using different API calls. The application can run either as a standalone docker-based application or run on another edge device. The process is done synchronosly, so the devices are onboarded one after another to prevent IEM overload. More information can be found in [docs](./docs/). The pictures below show the network configuration for each use case. **Important!** This example follows the approach of running the application on edge device.
 
-**Application runs on separate server**
+#### **Application runs on separate server**
 
 ![MassOnboard](./docs/graphics/mass_onboard_server.PNG)
  
- **Application runs on another device**
+#### **Application runs on another device**
  
 ![MassOnboard](./docs/graphics/mass_onboard_device.PNG)
 
