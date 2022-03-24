@@ -20,13 +20,13 @@ Automate process of onboarding and activating Edge Devices using public API. Wit
 
 ### Overview
 
-This application example shows how to create application that interacts with IEM and IED public API to automaticaly onboard and activate connected Edge Devices to the IEM.
+This application example shows how to create application that interacts with IEM and IED public API to automatically onboard and activate connected Edge Devices to the IEM.
 
 ### General task
 
-Public Edge Management's and Edge Device's API enable us to interact with a system and automate different processes. One of the process that can be automated is onboarding of Edge Devices to the IEM. Provided documentation describes how this can be done using Node.js application. The functionality of the application is as follows. When your Edge Device(s) are setup and have its own IP adress(es), you can configure the device configuration in provided excel list. The excel file has a strict structure which has to be followed in order for tha application to run correctly. Different configurations are divided in sheets and required information in the each sheet is highlighted with "*" symbol. The provided file consists of some representative examples.
+Public Edge Management's and Edge Device's API enable us to interact with a system and automate different processes. One of the process that can be automated is onboarding of Edge Devices to the IEM. Provided documentation describes how this can be done using Node.js application. The functionality of the application is as follows. When your Edge Device(s) are setup and have its own IP address(es), you can configure the device configuration in provided [excel-list](src/excel-file/edge_devices.xlsx). The excel file has a strict structure which has to be followed in order for tha application to run correctly. Different configurations are divided in sheets and required information in the each sheet is highlighted with "*" symbol. The provided file consists of some representative examples.
 
- When you are done configuring the edge devices, you can run the application which then onboards all your edge devices to the IEM using different API calls. The application can run either as a standalone docker-based application or run on another edge device. The process is done synchronosly, so the devices are onboarded one after another to prevent IEM overload. More information can be found in [docs](./docs/). The pictures below show the network configuration for each use case. **Important!** This example follows the approach of running the application on edge device.
+ When you are done configuring the edge devices, you can run the application which then onboards all your edge devices to the IEM using different API calls. The application can run either as a standalone docker-based application or run on another edge device. The process is done synchronously, so the devices are onboarded one after another to prevent IEM overload. More information can be found in [docs](./docs/). The pictures below show the network configuration for each use case. **Important!** This example follows the approach of running the application on edge device.
 
 #### **Application runs on separate server**
 
@@ -54,7 +54,12 @@ Public Edge Management's and Edge Device's API enable us to interact with a syst
 
 ## Installation steps
 
-The installation steps can be found [here](docs/Installation.md).
+The installation steps can be found [here](docs/Installation.md).The installation consist of following steps:
+
+* [Instalation setup](docs/Installation.md#instalation-setup)
+* [Build and deploy the application](docs/Installation.md#build-and-deploy-the-application)
+* [Access the application and start the onboarding process](docs/Installation.md#access-the-application-and-start-the-onboarding-process)
+
 
 ## Documentation
 
