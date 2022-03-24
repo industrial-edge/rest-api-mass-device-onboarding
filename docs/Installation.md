@@ -40,6 +40,16 @@ The documentation below is describing how to setup and deploy an node.js applica
 
 ### Access the application and start the onboarding process
 
-11. Go to the device UI and access the application by clicking on its icon. Click on "upload file" and choose the excel file with configured edge devices. 
-12. The process of onboarding then starts automatically. 
-13. If none of the edge devices occur in IEM, download the app logs for more information. 
+11.  Go to the device UI and access the application by clicking on its icon. Click on "Choose Files" and choose the excel file with configured edge devices.
+
+![MassOnboard](../docs/graphics/upload-file.PNG)
+
+12.  Click "Submit" to upload the file to the application. If the file uploaded successfully, you will get a respective message. After this step the onboarding process starts automatically.
+
+![MassOnboard](../docs/graphics/upload-file-success.PNG)
+
+1.  After this step the edge devices should start showing in IEM and get onboarded one after another. If there are no devices in IEM, check the application logs. 
+
+14. After the process ends the application stops. You can check the application volumes and download the `report.xlsx` file to see the report of which devices have been onboarded successfully and which not.
+
+![MassOnboard](../docs/graphics/report.PNG)
