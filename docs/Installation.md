@@ -51,7 +51,7 @@ The documentation below is describing how to setup and deploy an node.js applica
 
 ![MassOnboard](../docs/graphics/upload-file-success.PNG)
 
-1.  After this step the edge devices should start showing in IEM and get onboarded one after another. If there are no devices in IEM, check the application logs. 
+13.  After this step the edge devices should start showing in IEM and get onboarded one after another. If there are no devices in IEM, check the application logs. 
 
 14. After the process ends the application stops. You can check the application volumes and download the `report.xlsx` file to see the report of which devices have been onboarded successfully and which not.
 
