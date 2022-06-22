@@ -22,7 +22,11 @@ Apart from this solution note that the application can also run on a separate se
 
 3. Setup and connect your edge devices to your network which has access to the IEM and with a DHCP server available. At the end of this step, you should have the edge devices connected with a known IP addresses and ready to be activated. Your network configuration should be similar to the illustration [above](#installation-steps).
 
-4. Open the template [excel-file](../src/excel-file/edge_devices.xlsx) and fill out the excel sheets divided based on different edge device configuration. Required fieds are marked with a "\*" symbol. Each device should have a unique ID starting from 1. If you want to have no configuration of your edge device in a certain configuration sheet, leave the colomn empty, but the ID still **has** to be there in order for the application to work correctly.
+4. Open the template [excel-file](../src/excel-file/edge_devices.xlsx) and fill out the excel sheets divided based on different edge device configuration. General rules: 
+  * Required fieds are marked with a "\*" symbol. 
+  * Each device should have a unique ID starting from 1. 
+  * If you want to have no configuration of your edge device in a certain configuration sheet, leave the colomn empty, but the ID still **has** to be there in order for the application to work correctly.
+  * **IP Adress, network mask and getaway adress are only needed if DHCP is disabled!**
 
 5. Adjust your IEM credentials in the first sheet of the excel file.
 6. Save your excel file.
