@@ -8,6 +8,7 @@ services:
             - "3001:3001"
         volumes: 
             - ./myVolume:/usr/src/app/devices
+        mem_limit: 500mb
     device-onboarder:
         build:
             context: ./onboard_device
@@ -16,3 +17,4 @@ services:
             - ./myVolume:/usr/src/app/devices
         network_mode: host
         restart: on-failure
+        mem_limit: 500mb
